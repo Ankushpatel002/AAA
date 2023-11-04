@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100&display=swap');
+.main {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(24, 128, 207);
+}
+
+.container {
+    width: 35rem;
+    box-shadow: 0px 0px 5px grey;
+    display: flex;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-direction: column;
+}
+
+.col {
+    text-align: justify;
+    padding: 15px;
+    width: 95%;
+}
+
+#submit {
+    width: 100%;
+    background-color: rgb(47, 8, 73);
+    transition: 0.5s;
+    color: white;
+    outline: none;
+    border: none;
+    font-size: 25px;
+    display: block;
+    padding: 10px;
+    cursor: pointer;
+}
+
+#submit:hover {
+    background-color: rgb(34, 6, 53);
+}
+
+.box {
+    box-shadow: 0px -1px 1px grey;
+    width: 100%;
+}
+#logoutt{
+  display:block;
+  position:fixed;
+  top:0px;
+  right:0px;
+  padding:20px;
+  background-color:white;
+}
+    </style>
+</head>
+
+<body>
+    <a href="{% url 'logout' %}" class="btn btn-primary" id="logoutt">Logout</a>
+    <section class="main">
+
+        <div class="container">
+            <div class="col">
+                <h3 id="questionBox">
+                    1Lorem ipsum dolor sit amet, consectetur adipisicing elit Debitis?
+                </h3>
+            </div>
+            <div class="col box" >
+                <input name="option" type="radio" id="first" value="a" required>
+                <span id="first1" ><label for="first">Testing 1</label></span>
+            </div>
+            <div class="col box" >
+                <input name="option" type="radio" id="second" value="b" required>
+                <span id="second2"> <label for="second">Testing 2</label></span>
+            </div>
+            <div class="col box" >
+                <input name="option" type="radio" id="third" value="c" required>
+                <span id="third3"><label for="third">Testing 3</label></span>
+            </div>
+            <div class="col box" >
+                <input name="option" type="radio" id="fourth" value="d" required>
+                <span id="fourth4"><label for="fourth">Testing 4</label></span>
+            </div>
+            <button id="submit">Submit</button>
+        </div>
+
+    </section>
+    <script>
+      const quizData = [{
+        question: "How much do you sleep in a day",
+        a: "7-8hours",
+        b: "5-6hours",
+        c: "3-4 hours",
+        d: "less than 3 hours",
+        correct: "d",
+    },
+    {
+        question: "How much time do you spend on social media",
+        a: "1-2 hours",
+        b: "2-3 hours",
+        c: "3-4 hours",
+        d: "more than 4 hours",
+        correct: "a",
+    },
+    {
+        question: "How satisfied do you feel with your life",
+        a: "no satisfication",
+        b: "not much",
+        c: "less ",
+        d: "very much satisfied",
+        correct: "b",
+    },
+    {
+        question: "How often do you feel future was bleak",
+        a: "never ",
+        b: "sometimes",
+        c: "usually",
+        d: "always",
+        correct: "b",
+    },
+    {
+        question: "How much times you feel motivated",
+        a: "never ",
+        b: "sometimes",
+        c: "usually",
+        d: "always",
+        correct: "c",
+    },
+
+    {
+        question: "Overall how you rate your physical health",
+        a: "excellent ",
+        b: "Average",
+        c: "poor",
+        d: "not sure",
+        correct: "c",
+    },
+
+    {
+        question: "Overall how you rate your mental health",
+        a: "excellent ",
+        b: "Average",
+        c: "poor",
+        d: "not sure",
+
+    },
+
+    {
+        question:"How  particularly fee low or down these days",
+        a: "very often ",
+        b: "somewhat often",
+        c: "not so often",
+        d: "not at all",
+    },
+
+    {
+        question: "how do you feel most of the time",
+        a: "calm and peaceful ",
+        b: "Energetic",
+        c: "Gloomy",
+        d: "Angry",
+
+    },
+    {
+        question: "Have you noticed any change in your diet habits",
+        a: "yes , I eat too much ",
+        b: "Yes ,I don't feel hungry",
+        c: "Not much",
+        d: "No change",
+    },
+
+    {
+        question: "What was last time you were really  happy ",
+        a: "Few days ago ",
+        b: "Few weeks ago",
+        c: "few months ago",
+        d: "I don't remember",
+
+    },
+    {
+        question: "What was last time you feel good about yourself ",
+        a: "Few days ago ",
+        b: "Few weeks ago",
+        c: "few months ago",
+        d: "I don't remember",
+
+    },
+
+
+
+
+];
+let index = 0;
+let total = quizData.length;
+let questionBox = document.getElementById("questionBox");
+let allInputs = document.querySelectorAll("input[type='radio']")
+const loadQuestion = () => {
+    if (total === index) {
+        return quizEnd()
+    }
+    reset()
+    const data = quizData[index]
+    questionBox.innerHTML = `${index + 1}) ${data.question}`
+    allInputs[0].nextElementSibling.innerText = data.a
+    allInputs[1].nextElementSibling.innerText = data.b
+    allInputs[2].nextElementSibling.innerText = data.c
+    allInputs[3].nextElementSibling.innerText = data.d
+}
+const answers = [];
+document.querySelector("#submit").addEventListener(
+    "click",
+
+    function() {
+        const data = quizData[index]
+        const ans = getAnswer()
+        answers[index]= ans;
+        index++;
+        loadQuestion()
+    }
+)
+
+const getAnswer = () => {
+    let ans;
+    let atLeastOneChecked = false; // Initialize a variable to track if at least one radio button is checked
+
+    allInputs.forEach((inputEl) => {
+        if (inputEl.checked) {
+            atLeastOneChecked = true; // Set the flag to true if a radio button is checked
+
+            if (inputEl.value === 'a') {
+                ans = document.getElementById("first1").innerHTML;
+            }
+            if (inputEl.value === 'b') {
+                ans = document.getElementById("second2").innerHTML;
+            }
+            if (inputEl.value === 'c') {
+                ans = document.getElementById("third3").innerHTML;
+            }
+            if (inputEl.value === 'd') {
+                ans = document.getElementById("fourth4").innerHTML;
+            }
+        }
+    });
+
+    if (!atLeastOneChecked) {
+        //alert('Please select at least one option');
+        return 'NoSelection';
+    }
+
+    return ans;
+};
+
+
+const reset = () => {
+    allInputs.forEach(
+        (inputEl) => {
+            inputEl.checked = false;
+        }
+    )
+}
+
+const quizEnd = () =>{
+    // console.log(document.getElementsByClassName("container"));
+    let text=JSON.stringify(answers);
+    document.getElementsByClassName("container")[0].innerHTML = `
+        <div class="col">
+            <h3 class="w-100"> ${text}  </h3>
+            <h3 class="w-100"> ${text}  </h3>
+            <h3 class="w-100"> ${text}  </h3>
+            <h3 class="w-100"> ${text}  </h3>
+            <h3 class="w-100"> ${text}  </h3>
+            <h3 class="w-100"> ${text}  </h3>
+            <h3 class="w-100"> ${text}  </h3>
+            <h3 class="w-100"> ${text}  </h3>
+            
+        </div>
+    `
+    document.getElementById("demo").innerHTML = text;
+}
+loadQuestion(index);
+
+    </script>
+</body>
+
+</html>
